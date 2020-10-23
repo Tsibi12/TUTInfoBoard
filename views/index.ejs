@@ -1,0 +1,32 @@
+<% layout('layout') -%>
+
+<div class="container"> 
+    <h1><%= title %></h1>
+    <hr class="my-4">
+    <table class="table table-dark">
+        <thead>
+            <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Isbn10</th>
+            <th scope="col">Author</th>
+            <th scope="col">BookId</th>
+            <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0; i < books.length;i++){%> 
+                <tr>
+                    
+                    <td><%= books[i].title%></td>
+                    <td><%= books[i].isbn10%></td>
+                    <td><%= books[i].author%></td>
+                    <td><%= books[i].bookId%></td>
+                    <td><a href="/book/<%=books[i].bookId%>">View</a></td>
+                
+                    </tr>
+            <%}%>
+            
+        </tbody>
+    </table>
+</div>
+

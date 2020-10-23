@@ -1,0 +1,29 @@
+<% layout('layout') -%>
+  
+<div class="container">
+  <h1>Book details</h1>
+
+  <hr class="my-4">
+  <section class="jumbotron" style="margin-bottom: 400px;">
+    <div class="row">
+
+      <div class="col-xs-6 col-md-4 col-lg-3 center-block" style="margin-bottom: 10px;">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h4><%=book.title%></h4>
+              </div>
+              <div class="panel-body">
+                  <div class="col-xs-12 col-sm-4 col-lg-6">
+                      <a class="story-title" href=""><img alt="book cover" src="<%=book.cover%>" style="height:100px" class="img-thumbnail"></a>
+                  </div>
+                  <div class="col-xs-12 col-sm-8 col-lg-6">
+                      <p><span class="label label-default"><strong><%=book.author%></strong></span></p>
+                      <p><span style="font-family:courier,'new courier';" class="text-muted"><a href="/" class="text-muted">Read More</a></span></p> 
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+    
+  
+
