@@ -1,8 +1,19 @@
 const express =require('express');
 const bodyParser= require('body-parser');
 const engine = require('ejs-mate');
+const admin = require("firebase-admin");
+
 const app = express();
+const serviceAccount = require("./admin.json");
 const PORT = 3001;
+
+
+admin.initializeApp({
+credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://nodemcu-3453c-default-rtdb.firebaseio.com"
+});
+
+const db=admin.database();
 
 app.use(express.static('public'));
 app.engine('ejs', engine);
@@ -70,15 +81,34 @@ const books = [{
 
 // Send message for default route
 app.get('/', function(req, res){
-    // res.send('Hello World')
-    // res.sendFile(__dirname + '/index.html')
-    // res.render('index.ejs', {})
     res.render('index', {title: 'Library Books Collections', books});
 });
+
+// Save book id to firebase
+app.post('/send-book-id', function(req, res){
+    const bookRef=db.ref("logs");
+    const oneBookRef=bookRef.child("tag_ref");
+
+    const data = {
+        tagId: req.body.bookId,
+    }
+
+    // update or save new tag id
+    oneBookRef.update(data,(err)=>{
+        if(err){
+            // res.status(300).json({"msg":"Something went wrong","error":err});
+            console.log("Something went wrong","error",err);
+        }
+        else{
+            // res.status(200).json({"msg":"user created sucessfully"});
+            res.render('index', {title: 'Library Books Collections', books});
+        }
+    })
+    
+});
+
 app.get('/book/:id', function(req, res){
     const id = req.params.id;
-    // res.send('Hello World from the books route')
-    // res.json(books.find(b => b.bookId == id))
     const book = books.find(b => b.bookId == id);
     res.render('book', {title: 'Library Books Collections', book});
 });
@@ -87,3 +117,4 @@ app.get('/book/:id', function(req, res){
 app.listen(PORT, () => {
     console.log("Server has started on port " + PORT);
 });
+
